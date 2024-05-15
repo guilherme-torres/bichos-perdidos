@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path")
-const AnimalController = require("./controllers/AnimalController");
+const path = require("path");
+const AnimalController = require("./controllers/animalController");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
