@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const mysql = require("mysql2");
+require('dotenv').config()
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -12,12 +13,20 @@ const storage = multer.diskStorage({
     }
 });
 
+const {
+    MYSQL_HOST,
+    MYSQL_PORT,
+    MYSQL_USER,
+    MYSQL_PASSWORD,
+    MYSQL_DBNAME
+} = process.env;
+
 const conn = mysql.createConnection({
-    host: "172.20.0.1",
-    port: 3306,
-    user: "root",
-    password: "PASSWORD",
-    database: "bichos_perdidos"
+    host: MYSQL_HOST,
+    port: MYSQL_PORT,
+    user: MYSQL_USER,
+    password: MYSQL_PASSWORD,
+    database: MYSQL_DBNAME
 });
 
 const upload = multer({ storage: storage });
