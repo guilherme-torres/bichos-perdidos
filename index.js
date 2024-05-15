@@ -63,6 +63,18 @@ app.get("/animals", (req, res) => {
     });
 });
 
+app.get("/animals/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = "SELECT * FROM `animal` WHERE id = ?";
+    conn.execute(sql, [id], (err, results) => {
+        if (err) {
+            console.log(err);
+            return res.status(502);
+        }
+        return res.status(200).json(results);
+    });
+});
+
 app.listen(3333, () => {
     console.log("Servidor rodando em: http://localhost:3333/");
 });
