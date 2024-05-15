@@ -1,6 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const mysql = require("mysql2");
+
 require('dotenv').config()
 
 const storage = multer.diskStorage({
@@ -46,9 +47,9 @@ app.post("/animals", upload.single("animalPhoto"), (req, res) => {
     conn.execute(sql, values, (err) => {
         if (err) {
             console.log(err);
-            return res.status(502);
+            return res.sendStatus(502);
         }
-        return res.status(201).json({ photoUrl, phoneNumber, city, uf, info });
+        return res.sendStatus(201);
     });
 });
 
@@ -57,7 +58,7 @@ app.get("/animals", (req, res) => {
     conn.query(sql, (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(502);
+            return res.sendStatus(502);
         }
         return res.status(200).json(results);
     });
@@ -69,9 +70,21 @@ app.get("/animals/:id", (req, res) => {
     conn.execute(sql, [id], (err, results) => {
         if (err) {
             console.log(err);
-            return res.status(502);
+            return res.sendStatus(502);
         }
         return res.status(200).json(results);
+    });
+});
+
+app.delete("/animals/:id", (req, res) => {
+    const { id } = req.params;
+    const sql = "DELETE FROM `animal` WHERE id = ?";
+    conn.execute(sql, [id], (err) => {
+        if (err) {
+            console.log(err);
+            return res.sendStatus(502);
+        }
+        return res.sendStatus(200);
     });
 });
 
